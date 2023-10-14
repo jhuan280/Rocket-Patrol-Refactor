@@ -81,16 +81,16 @@ class Play extends Phaser.Scene {
     update(){
         //check key input for restart
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)){
-            
+
             //gets rid of console error
             this.sound.play('sfx_select');
-            //this.anims.remove('explosion');
+            this.anims.remove('explosion');
             this.scene.restart();
         }
 
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)){
             this.sound.play('sfx_select');
-            //this.anims.remove('explosion');
+            this.anims.remove('explosion');
             this.scene.start("menuScene");
 
         }
