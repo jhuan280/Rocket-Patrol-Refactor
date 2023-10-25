@@ -6,6 +6,9 @@ let config = {
 } 
 
 let game = new Phaser.Game(config);
+let scoreConfig;
+let highScore = 0;
+let currentScore;
 
 //reserve keyboard vars
 let keyF, keyR, keyLEFT, keyRIGHT;

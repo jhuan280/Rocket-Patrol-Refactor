@@ -10,13 +10,19 @@ class Play extends Phaser.Scene {
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('starfield', './assets/starfield.png');
 
+        this.load.image('meteor3', './assets/meteor3.png');
+        this.load.image('shooting_star3', './assets/shooting_star3.png');
+
         //load spritesheet
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
     }
 
     create(){
         //starfield
-        this.starfied = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
+        this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
+
+        this.meteor = this.add.tileSprite(0, 0, 640, 280, 'meteor3').setOrigin(0,0);
+        this.shootingStar = this.add.tileSprite(0, 0, 640, 480, 'shooting_star3').setOrigin(0,0);
 
         //this.add.text(20, 20, "Rocket Patrol Play");
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0,0);
@@ -52,7 +58,7 @@ class Play extends Phaser.Scene {
         this.p1Score = 0;
 
         //display score
-        let scoreConfig = {
+        scoreConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
             backgroundColor: '#F3B141',
@@ -75,27 +81,82 @@ class Play extends Phaser.Scene {
             this.add.text(game.config.width/2, game.config.height/2, 'Game Over', scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or <- for Menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
+
+            //keeping highscore
+            currentScore = this.p1Score;
+            if (currentScore > highScore){
+                highScore = currentScore;
+                this.highScore.setText('High Score: ' + highScore);
+            }
+
+            
         }, null, this);
+
+        //display Fire UI
+
+        // if (Phaser.Input.Keyboard.JustDown(keyF) && !this.isFiring){
+        this.fire = this.add.text(game.config.width/2.5, borderUISize + borderPadding * 2, 'FIRE', scoreConfig).setOrigin(0.5, 0);
+            //this.add.text('FIRE');
+        // }
+        //fire = this.add.text(game.config.width/2, game.config.height/2, 'FIRE', scoreConfig).setOrigin(0.5, 5.2);
+
+        //tracking high score
+        this.highScore = this.add.text(game.config.width/2, borderUISize + borderPadding * 2, 'High Score: ' + highScore, scoreConfig).setOrigin(0, 0);
+
+        //currentScore = this.p1Score;
+        //this.highScore = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 2, this.p1Score, scoreConfig);
+
+        let loopConfig = {
+            volume: 0.5,
+            loop: true
+        }
+
+        //playing music
+        this.music = this.sound.add('NCS 2', loopConfig); 
+
+        //pause music
+        if (!this.gameOver){
+            this.music.play();            
+        }
+        else{
+            this.music.stop();
+        }
+
     }
 
     update(){
+        //fire UI
+        if (this.p1Rocket.isFiring){
+            //this.fire = this.add.text(game.config.width/2, borderUISize + borderPadding * 2, 'FIRE', scoreConfig).setOrigin(0.5, 0);
+            this.fire.setText('FIRE');
+        }
+        else{
+            //this.fire.setText('');
+            this.fire.setText('');
+        }
+
+
         //check key input for restart
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)){
 
             //gets rid of console error
             this.sound.play('sfx_select');
+            this.music.stop();
             //this.anims.remove('explosion');
             this.scene.restart();
         }
 
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)){
             this.sound.play('sfx_select');
+            this.music.stop();
             //this.anims.remove('explosion');
             this.scene.start("menuScene");
 
         }
         
-        this.starfied.tilePositionX -= 4;
+        this.starfield.tilePositionX -= 4;
+        this.meteor.tilePositionX -= 1;
+        this.shootingStar.tilePositionX -= 3;
 
         if(!this.gameOver){
             this.p1Rocket.update();
@@ -149,12 +210,35 @@ class Play extends Phaser.Scene {
             ship.reset();                       //reset ship position
             ship.alpha = 1;                     //make ship visible again
             boom.destroy();                     //remove explosion sprite
+
         });
 
         //score add and repaint
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score;
 
-        this.sound.play('sfx_explosion');
+        let random = (Math.floor(Math.random() * 10));
+        if (random == 0 || random == 1){
+            this.sound.play('sfx_explosion');
+        }
+
+        if (random == 2 || random == 3){
+            this.sound.play('explosion1');
+        }
+
+        if (random == 4 || random == 5){
+            this.sound.play('explosion2');
+        }
+
+        if (random == 6 || random == 7){
+            this.sound.play('explosion3');
+        }
+
+        if (random == 8 || random == 9){
+            this.sound.play('explosion4');
+        }
+
+
+
     }
 }
