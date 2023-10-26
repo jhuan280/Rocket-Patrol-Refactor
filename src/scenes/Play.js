@@ -8,7 +8,7 @@ class Play extends Phaser.Scene {
         //load images/tile sprites
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
-        this.load.image('starfield', './assets/starfield.png');
+        this.load.image('starfield2', './assets/starfield2.png');
 
         this.load.image('meteor3', './assets/meteor3.png');
         this.load.image('shooting_star3', './assets/shooting_star3.png');
@@ -22,7 +22,7 @@ class Play extends Phaser.Scene {
 
     create(){
         //starfield
-        this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
+        this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield2').setOrigin(0, 0);
 
         this.meteor = this.add.tileSprite(0, 0, 640, 280, 'meteor3').setOrigin(0,0);
         this.shootingStar = this.add.tileSprite(0, 0, 640, 480, 'shooting_star3').setOrigin(0,0);
@@ -122,7 +122,6 @@ class Play extends Phaser.Scene {
                 this.timeRemain.text = this.timeTotal
             },
             // this.timeRemain.text = this.timeTotal,
-
             callBackScope: this,
             loop: true
         });
@@ -159,7 +158,17 @@ class Play extends Phaser.Scene {
 
     }
 
+
     update(){
+
+        //increases the ship speed after 30 seconds
+        if (this.timeTotal == 30){
+            this.ship01.speed30();
+            this.ship02.speed30();
+            this.ship03.speed30();
+            this.jet.speed30();
+        }
+
         //fire UI
         if (this.p1Rocket.isFiring){
             //this.fire = this.add.text(game.config.width/2, borderUISize + borderPadding * 2, 'FIRE', scoreConfig).setOrigin(0.5, 0);
@@ -225,39 +234,6 @@ class Play extends Phaser.Scene {
             this.shipExplode(this.ship01);
         }
     }
-
-
-
-/*
-    updateTimer() {
-        if (this.shipHit){
-            this.totalTime += 5;
-            this.shipHit = false; // Resetting the flag
-        }
-        if (this.totalTime > 0) {
-            this.totalTime -= 1; // decrease time by 1 second
-            this.timeLeft.text = this.totalTime; // update text to reflect the time left
-        } else {
-            this.timerEvent.remove(); // stop the timer
-        }
-
-*/
-    //manipulating time
-    // timeUpdate(){
-    //     if(this.hit){
-    //         this.timeTotal += 5;
-    //         this.hit = false;
-    //     }
-
-    //     if (this.timeTotal > 0){
-    //         this.timeTotal -= 1;
-    //         this.timeRemain.text = this.timeTotal;
-    //     }
-    //     else{
-    //         this.timeDecrease.remove();
-    //     }
-
-    // }
 
     checkCollision(rocket, ship){
         //simple AABB checking
