@@ -10,15 +10,20 @@ Time: 15 hours
     - Add your own (copyright-free) looping background music to the Play scene (1)
     - Allow the player to control the Rocket after it's fired (1)
     - Implement the speed increase that happens after 30 seconds in the original game (1)
+    - Create a new scrolling tile sprite for the background (1)
+    total: 6
 
 3-point tier: 
     - Create 4 new explosion sound effects and randomize which one plays on impact (3)
     - Implement parallax scrolling for the background (3)
     - Display the time remaining (in seconds) on the screen (3)
+    total: 9
 
 5-point tier:
     - Create a new enemy Spaceship type (w/ new artwork) that's smaller, moves faster, and is worth more points (5)
+    total: 5
 
+Overall score: 20
 
 Sources cited:
     - arrow function
@@ -26,8 +31,6 @@ Sources cited:
 
     - setting up the timer
     https://rexrainbow.github.io/phaser3-rex-notes/docs/site/timer/
-
-
 
 */
 
