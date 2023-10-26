@@ -96,7 +96,7 @@ class Play extends Phaser.Scene {
         }, null, this);
 
         //Display the time remaining
-        this.timeTotal = 60;
+        this.timeTotal = game.settings.gameTimer;
 
         //time config
         let timeConfig = {
@@ -112,14 +112,14 @@ class Play extends Phaser.Scene {
             },
             fixedWidth: 100
         }
-        this.timeRemain = this.add.text(game.config.width/1.2, borderUISize + borderPadding * 2, this.timeTotal, timeConfig).setOrigin(0.5, 0);
+        this.timeRemain = this.add.text(game.config.width/1.2, borderUISize + borderPadding * 2, this.timeTotal - 1000, timeConfig).setOrigin(0.5, 0);
 
         //decrease time
         this.timeDecrease = this.time.addEvent({
             delay: 1000,
             callback: () =>{
-                this.timeTotal -= 1
-                this.timeRemain.text = this.timeTotal
+                this.timeTotal -= 1000,
+                this.timeRemain.text = this.timeTotal - 1000;
             },
             // this.timeRemain.text = this.timeTotal,
             callBackScope: this,
