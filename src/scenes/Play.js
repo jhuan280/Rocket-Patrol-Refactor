@@ -96,7 +96,7 @@ class Play extends Phaser.Scene {
         }, null, this);
 
         //Display the time remaining
-        this.timeTotal = 10;
+        this.timeTotal = 60;
 
         //time config
         let timeConfig = {
