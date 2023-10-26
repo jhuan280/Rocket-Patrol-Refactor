@@ -13,6 +13,9 @@ class Play extends Phaser.Scene {
         this.load.image('meteor3', './assets/meteor3.png');
         this.load.image('shooting_star3', './assets/shooting_star3.png');
 
+        //special ship
+        this.load.image('jet', './assets/jet.png');
+
         //load spritesheet
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
     }
@@ -41,6 +44,8 @@ class Play extends Phaser.Scene {
         this.ship02 = new Spaceship(this, game.config.width + borderUISize * 3, borderUISize * 5 + borderPadding * 2, 'spaceship', 0, 20).setOrigin(0, 0);
         this.ship03 = new Spaceship(this, game.config.width, borderUISize * 6 + borderPadding * 4, 'spaceship', 0, 10).setOrigin(0, 0);
        
+        this.jet = new Spaceship(this, game.config.width, borderUISize * 6 + borderPadding * 8, 'jet', 0, 40).setOrigin(0, 0);
+        
         //keyboard inputs
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -88,30 +93,60 @@ class Play extends Phaser.Scene {
                 highScore = currentScore;
                 this.highScore.setText('High Score: ' + highScore);
             }
-
-            
         }, null, this);
 
-        //display Fire UI
+        //Display the time remaining
+        this.timeTotal = 60;
 
+        //time config
+        let timeConfig = {
+            //taken from scoreConfig
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#F3B141',
+            color: '#843605',
+            align: 'right',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 100
+        }
+        this.timeRemain = this.add.text(game.config.width/1.2, borderUISize + borderPadding * 2, this.timeTotal, timeConfig).setOrigin(0.5, 0);
+
+        //decrease time
+        this.timeDecrease = this.time.addEvent({
+            delay: 1000,
+            callback: () =>{
+                this.timeTotal -= 1
+                this.timeRemain.text = this.timeTotal
+            },
+            // this.timeRemain.text = this.timeTotal,
+
+            callBackScope: this,
+            loop: true
+        });
+
+
+        //display Fire UI
         // if (Phaser.Input.Keyboard.JustDown(keyF) && !this.isFiring){
-        this.fire = this.add.text(game.config.width/2.5, borderUISize + borderPadding * 2, 'FIRE', scoreConfig).setOrigin(0.5, 0);
+        this.fire = this.add.text(game.config.width/3.3, borderUISize + borderPadding * 2, 'FIRE', scoreConfig).setOrigin(0.5, 0);
             //this.add.text('FIRE');
         // }
         //fire = this.add.text(game.config.width/2, game.config.height/2, 'FIRE', scoreConfig).setOrigin(0.5, 5.2);
 
         //tracking high score
-        this.highScore = this.add.text(game.config.width/2, borderUISize + borderPadding * 2, 'High Score: ' + highScore, scoreConfig).setOrigin(0, 0);
+        this.highScore = this.add.text(game.config.width/2.7, borderUISize + borderPadding * 2, 'High Score: ' + highScore, scoreConfig).setOrigin(0, 0);
 
         //currentScore = this.p1Score;
         //this.highScore = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 2, this.p1Score, scoreConfig);
 
+        //playing music
         let loopConfig = {
             volume: 0.5,
             loop: true
         }
 
-        //playing music
         this.music = this.sound.add('NCS 2', loopConfig); 
 
         //pause music
@@ -166,9 +201,15 @@ class Play extends Phaser.Scene {
             this.ship02.update();
             this.ship03.update();
 
+            this.jet.update();
         }
 
         //check collisions
+        if (this.checkCollision(this.p1Rocket, this.jet)){
+            this.p1Rocket.reset();
+            this.shipExplode(this.jet);
+        }
+
         if (this.checkCollision(this.p1Rocket, this.ship03)){
             this.p1Rocket.reset();
             this.shipExplode(this.ship03);
@@ -184,6 +225,39 @@ class Play extends Phaser.Scene {
             this.shipExplode(this.ship01);
         }
     }
+
+
+
+/*
+    updateTimer() {
+        if (this.shipHit){
+            this.totalTime += 5;
+            this.shipHit = false; // Resetting the flag
+        }
+        if (this.totalTime > 0) {
+            this.totalTime -= 1; // decrease time by 1 second
+            this.timeLeft.text = this.totalTime; // update text to reflect the time left
+        } else {
+            this.timerEvent.remove(); // stop the timer
+        }
+
+*/
+    //manipulating time
+    // timeUpdate(){
+    //     if(this.hit){
+    //         this.timeTotal += 5;
+    //         this.hit = false;
+    //     }
+
+    //     if (this.timeTotal > 0){
+    //         this.timeTotal -= 1;
+    //         this.timeRemain.text = this.timeTotal;
+    //     }
+    //     else{
+    //         this.timeDecrease.remove();
+    //     }
+
+    // }
 
     checkCollision(rocket, ship){
         //simple AABB checking

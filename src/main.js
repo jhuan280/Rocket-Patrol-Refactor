@@ -1,3 +1,37 @@
+/*
+Name: Jackie Huang
+Title: Rocket Patrol Revamped
+Time: 15 hours
+
+--List of mods--
+1-point tier:
+    - Track a high score that persists across scenes and display it in the UI (1)
+    - Implement the 'FIRE' UI text from the original game (1)
+    - Add your own (copyright-free) looping background music to the Play scene 
+    - Allow the player to control the Rocket after it's fired (1)
+
+3-point tier: 
+    - Create 4 new explosion sound effects and randomize which one plays on impact (3)
+    - Implement parallax scrolling for the background (3)
+
+5-point tier:
+    - Create a new enemy Spaceship type (w/ new artwork) that's smaller, moves faster, and is worth more points (5)
+    - Implement a new timing/scoring mechanism that adds time to the clock for successful hits (5) (attempting)
+
+
+Sources cited:
+    - arrow function
+    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
+
+    - setting up the timer
+    https://rexrainbow.github.io/phaser3-rex-notes/docs/site/timer/
+
+
+
+*/
+
+
+
 let config = {
     type: Phaser.AUTO,
     width: 640,
@@ -9,6 +43,8 @@ let game = new Phaser.Game(config);
 let scoreConfig;
 let highScore = 0;
 let currentScore;
+// let timeTotal;
+// let timeRemain;
 
 //reserve keyboard vars
 let keyF, keyR, keyLEFT, keyRIGHT;
