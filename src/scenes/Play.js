@@ -112,14 +112,14 @@ class Play extends Phaser.Scene {
             },
             fixedWidth: 100
         }
-        this.timeRemain = this.add.text(game.config.width/1.2, borderUISize + borderPadding * 2, this.timeTotal - 1000, timeConfig).setOrigin(0.5, 0);
+        this.timeRemain = this.add.text(game.config.width/1.2, borderUISize + borderPadding * 2, this.timeTotal / 1000, timeConfig).setOrigin(0.5, 0);
 
         //decrease time
         this.timeDecrease = this.time.addEvent({
             delay: 1000,
             callback: () =>{
                 this.timeTotal -= 1000,
-                this.timeRemain.text = this.timeTotal - 1000;
+                this.timeRemain.text = this.timeTotal / 1000;
             },
             // this.timeRemain.text = this.timeTotal,
             callBackScope: this,
