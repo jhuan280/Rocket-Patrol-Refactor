@@ -10,8 +10,8 @@ class Play extends Phaser.Scene {
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('starfield2', './assets/starfield2.png');
 
-        this.load.image('meteor3', './assets/meteor3.png');
-        this.load.image('shooting_star3', './assets/shooting_star3.png');
+        this.load.image('meteor4', './assets/meteor4.png');
+        this.load.image('shooting_star5', './assets/shooting_star5.png');
 
         //special ship
         this.load.image('jet', './assets/jet.png');
@@ -24,8 +24,8 @@ class Play extends Phaser.Scene {
         //starfield
         this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield2').setOrigin(0, 0);
 
-        this.meteor = this.add.tileSprite(0, 0, 640, 280, 'meteor3').setOrigin(0,0);
-        this.shootingStar = this.add.tileSprite(0, 0, 640, 480, 'shooting_star3').setOrigin(0,0);
+        this.meteor = this.add.tileSprite(0, 0, 640, 480, 'meteor4').setOrigin(0,0);
+        this.shootingStar = this.add.tileSprite(0, 0, 640, 480, 'shooting_star5').setOrigin(0,0);
 
         //this.add.text(20, 20, "Rocket Patrol Play");
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0,0);
