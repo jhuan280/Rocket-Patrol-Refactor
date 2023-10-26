@@ -167,7 +167,7 @@ class Play extends Phaser.Scene {
         }
 
         //increases the ship speed after 30 seconds
-        if (this.timeTotal == 30){
+        if (this.timeTotal == 30000){
             this.ship01.speed30();
             this.ship02.speed30();
             this.ship03.speed30();
