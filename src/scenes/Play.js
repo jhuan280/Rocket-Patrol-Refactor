@@ -96,7 +96,7 @@ class Play extends Phaser.Scene {
         }, null, this);
 
         //Display the time remaining
-        this.timeTotal = 60;
+        this.timeTotal = 10;
 
         //time config
         let timeConfig = {
@@ -160,6 +160,11 @@ class Play extends Phaser.Scene {
 
 
     update(){
+
+        //timer will not go past 0 seconds
+        if (this.timeTotal <= 0){
+            this.timeDecrease.paused = true;
+        }
 
         //increases the ship speed after 30 seconds
         if (this.timeTotal == 30){
